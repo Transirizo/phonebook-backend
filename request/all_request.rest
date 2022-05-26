@@ -1,0 +1,14 @@
+### get-request
+GET http://localhost:3001/api/persons/
+
+### delete-request
+DELETE http://localhost:3001/api/persons/3
+
+### post-request
+POST http://localhost:3001/api/persons
+Content-Type: application/json
+
+{
+    "name": "sdf",
+    "number": 12321
+}
