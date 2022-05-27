@@ -2,7 +2,8 @@ const express = require("express");
 const { restart } = require("nodemon");
 const PORT = 3001;
 const app = express();
-
+var morgan = require("morgan");
+const { json } = require("express");
 let persons = [
 	{
 		id: 1,
@@ -27,9 +28,39 @@ let persons = [
 ];
 
 const length = persons.length;
+const requestLogger = (req, res, next) => {
+	console.log("Method:", req.method);
+	console.log("Path: ", req.path);
+	console.log("Body: ", req.body);
+	console.log("---");
+	next();
+};
+
+const unknownEndpoint = (req, res) => {
+	res.status(404).send({ error: "unknown endpoint" });
+};
+
+morgan.token("person", function (req, res) {
+	return JSON.stringify(req.body);
+});
 
 app.use(express.json());
 
+app.use(requestLogger);
+app.use(
+	morgan(function (tokens, req, res) {
+		return [
+			tokens.method(req, res),
+			tokens.url(req, res),
+			tokens.status(req, res),
+			tokens.res(req, res, "content-length"),
+			"-",
+			tokens["response-time"](req, res),
+			"ms",
+			tokens.person(req, res),
+		].join(" ");
+	})
+);
 app.get("/", (req, res) => {
 	res.send("PhoneBook");
 });
@@ -82,6 +113,7 @@ app.delete("/api/persons/:id", (req, res) => {
 	res.status(204).end();
 });
 
+app.use(unknownEndpoint);
 app.listen(PORT, () => {
 	console.log(`Server running on ${PORT}`);
 });
