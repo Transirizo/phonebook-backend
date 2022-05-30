@@ -25,7 +25,6 @@ let persons = [
 		number: "39-23-6423122",
 	},
 ];
-app.use(express.static("bulid"));
 
 const length = persons.length;
 const requestLogger = (req, res, next) => {
@@ -47,6 +46,8 @@ morgan.token("person", function (req, res) {
 app.use(express.json());
 app.use(cors());
 app.use(requestLogger);
+
+app.use(express.static("bulid"));
 app.use(
 	morgan(function (tokens, req, res) {
 		return [
