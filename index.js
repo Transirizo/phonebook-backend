@@ -46,7 +46,6 @@ morgan.token("person", function (req, res) {
 app.use(express.json());
 app.use(cors());
 app.use(requestLogger);
-
 app.use(express.static("bulid"));
 app.use(
 	morgan(function (tokens, req, res) {
