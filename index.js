@@ -1,8 +1,6 @@
 const express = require("express");
-const { restart } = require("nodemon");
 const app = express();
 var morgan = require("morgan");
-const { json } = require("express");
 const cors = require("cors");
 let persons = [
 	{
@@ -114,9 +112,7 @@ app.delete("/api/persons/:id", (req, res) => {
 });
 
 app.use(unknownEndpoint);
-
 const PORT = process.env.PORT || 3001;
-
 app.listen(PORT, () => {
 	console.log(`Server running on ${PORT}`);
 });
