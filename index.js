@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 var morgan = require("morgan");
 const cors = require("cors");
+
 let persons = [
 	{
 		id: 1,
@@ -24,6 +25,7 @@ let persons = [
 		number: "39-23-6423122",
 	},
 ];
+app.use(express.static("bulid"));
 
 const length = persons.length;
 const requestLogger = (req, res, next) => {
